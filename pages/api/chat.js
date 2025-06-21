@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${process.env.SHAPES_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'shapesinc/<shape-username>', // REPLACE with your Shapes username/model
+        model: 'shapesinc/mark-u4i9', // REPLACE with your Shapes username/model
         messages,
       }),
     });
