@@ -55,7 +55,7 @@ export default function Home() {
     <div className="flex h-screen bg-[#0d0d0d] text-white">
       {/* Sidebar */}
       <aside className="w-64 bg-[#1a1a1a] flex flex-col p-4 space-y-4 border-r border-[#2c2c2c]">
-        <h2 className="text-xl font-bold mb-6 text-white">ChatGPT Clone</h2>
+        <h2 className="text-xl font-bold mb-6 text-white">Mark</h2>
         <button
           className="bg-[#2a2a2a] hover:bg-[#3a3a3a] rounded-md py-2 px-3 text-sm text-white transition"
           onClick={() =>
