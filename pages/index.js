@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 
 export default function Home() {
   const [messages, setMessages] = useState([
-    { role: "system", content: "You are chatting with AI." },
+    { role: "system", content: "You are chatting with Mark." },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,10 +55,10 @@ export default function Home() {
     <div className="flex h-screen bg-gray-900 text-gray-100">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-800 flex flex-col p-4 space-y-4">
-        <h2 className="text-xl font-bold mb-6">ChatGPT Clone</h2>
+        <h2 className="text-xl font-bold mb-6">Mark</h2>
         <button
           className="bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-3 text-sm text-center"
-          onClick={() => setMessages([{ role: "system", content: "You are chatting with AI." }])}
+          onClick={() => setMessages([{ role: "system", content: "You are chatting with Mark." }])}
         >
           New Chat
         </button>
