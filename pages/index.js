@@ -1,30 +1,30 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 
 export default function Home() {
   const [messages, setMessages] = useState([
-    { role: 'system', content: 'You are chatting with AI.' }
+    { role: "system", content: "You are chatting with AI." },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   async function handleSend() {
     if (!input.trim()) return;
 
-    const userMessage = { role: 'user', content: input };
+    const userMessage = { role: "user", content: input };
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
-    setInput('');
+    setInput("");
     setLoading(true);
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: updatedMessages }),
       });
 
@@ -38,65 +38,84 @@ export default function Home() {
 
       setMessages([...updatedMessages, data]);
     } catch (err) {
-      alert('Failed to fetch AI response');
+      alert("Failed to fetch AI response");
     }
 
     setLoading(false);
   }
 
   function handleKeyDown(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   }
 
   return (
-    <div className="flex flex-col h-screen max-w-3xl mx-auto p-4 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white">
-      <header className="mb-4 text-center">
-        <h1 className="text-4xl font-bold drop-shadow-lg">Chat with AI</h1>
-      </header>
-
-      <main className="flex-grow overflow-y-auto bg-white rounded-lg p-6 text-gray-900 shadow-lg">
-        {messages.filter(m => m.role !== 'system').map((m, i) => (
-          <div
-            key={i}
-            className={`mb-4 flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            <div
-              className={`max-w-xs px-4 py-2 rounded-lg shadow ${
-                m.role === 'user'
-                  ? 'bg-indigo-500 text-white rounded-br-none'
-                  : 'bg-gray-200 text-gray-900 rounded-bl-none'
-              }`}
-            >
-              <p className="whitespace-pre-wrap">{m.content}</p>
-            </div>
-          </div>
-        ))}
-        <div ref={bottomRef} />
-      </main>
-
-      <footer className="mt-4">
-        <textarea
-          rows={2}
-          className="w-full resize-none rounded-md p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          placeholder="Type your message..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={loading}
-        />
+    <div className="flex h-screen bg-gray-900 text-gray-100">
+      {/* Sidebar */}
+      <aside className="w-64 bg-gray-800 flex flex-col p-4 space-y-4">
+        <h2 className="text-xl font-bold mb-6">ChatGPT Clone</h2>
         <button
-          onClick={handleSend}
-          disabled={loading}
-          className={`mt-2 w-full py-3 rounded-md font-semibold text-white ${
-            loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
-          } transition-colors`}
+          className="bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-3 text-sm text-center"
+          onClick={() => setMessages([{ role: "system", content: "You are chatting with AI." }])}
         >
-          {loading ? 'Thinking...' : 'Send'}
+          New Chat
         </button>
-      </footer>
+        <div className="mt-auto text-xs text-gray-500">
+          <p>Powered by Shapes API</p>
+        </div>
+      </aside>
+
+      {/* Chat area */}
+      <main className="flex flex-col flex-grow bg-white text-gray-900">
+        <header className="p-4 border-b border-gray-200">
+          <h1 className="text-2xl font-semibold">Chat with AI</h1>
+        </header>
+
+        <section className="flex-grow overflow-y-auto px-6 py-4 space-y-6">
+          {messages
+            .filter((m) => m.role !== "system")
+            .map((m, i) => (
+              <div
+                key={i}
+                className={`max-w-[60ch] ${
+                  m.role === "user" ? "ml-auto bg-blue-600 text-white" : "bg-gray-100 text-gray-900"
+                } rounded-lg p-4 whitespace-pre-wrap shadow`}
+              >
+                {m.content}
+              </div>
+            ))}
+          <div ref={bottomRef} />
+        </section>
+
+        <footer className="p-4 border-t border-gray-200 bg-gray-50">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}
+            className="flex gap-3"
+          >
+            <textarea
+              rows={1}
+              className="flex-grow resize-none rounded-md border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Type your message..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={loading}
+            />
+            <button
+              type="submit"
+              disabled={loading || !input.trim()}
+              className={`rounded-md bg-blue-600 px-4 py-2 text-white font-semibold transition disabled:opacity-50`}
+            >
+              {loading ? "Thinking..." : "Send"}
+            </button>
+          </form>
+        </footer>
+      </main>
     </div>
   );
 }
