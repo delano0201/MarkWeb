@@ -70,7 +70,7 @@ export default function Home() {
       {/* Chat area */}
       <main className="flex flex-col flex-grow bg-white text-gray-900">
         <header className="p-4 border-b border-gray-200">
-          <h1 className="text-2xl font-semibold">Chat with AI</h1>
+          <h1 className="text-2xl font-semibold">Chat with Mark</h1>
         </header>
 
         <section className="flex-grow overflow-y-auto px-6 py-4 space-y-6">
